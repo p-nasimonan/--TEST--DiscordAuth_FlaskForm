@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>送信完了</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✅ 送信完了</h1>
+        </header>
+
+        <main>
+            <div class="success-message">
+                <p>プロフィールが正常に送信されました！</p>
+                <p>画像とお名前を受け取りました。</p>
+            </div>
+
+            <div class="actions">
+                <a href="{{ url_for('form_page') }}" class="btn">新しいプロフィールを送信</a>
+                <a href="{{ url_for('view_data') }}" class="btn btn-secondary">保存データを確認</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

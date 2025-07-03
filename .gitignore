@@ -1,0 +1,32 @@
+# 環境変数ファイル（機密情報含む）
+.env
+
+# データベースファイル
+data/form_data.db
+
+# アップロードファイル
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Python関連
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# IDE関連
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# ログファイル
+*.log

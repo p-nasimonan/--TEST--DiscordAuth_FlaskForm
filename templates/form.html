@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルフォーム</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Discord認証フォーム</h1>
+            <p>プロフィール情報を入力してください</p>
+            
+            <!-- Discord認証状態表示 -->
+            {% if session.discord_user %}
+                <div class="auth-status auth-success">
+                    <p>✅ 認証済み: 
+                    {% if session.discord_user.global_name %}
+                        {{ session.discord_user.global_name }}
+                    {% else %}
+                        {{ session.discord_user.username }}
+                    {% endif %}
+                    {% if session.discord_user.discriminator and session.discord_user.discriminator != '0' %}
+                        (#{{ session.discord_user.discriminator }})
+                    {% endif %}
+                    </p>
+                    <a href="{{ url_for('discord_logout') }}" class="btn btn-small">ログアウト</a>
+                </div>
+            {% endif %}
+        </header>
+
+        <main>
+            <!-- フラッシュメッセージ表示 -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" enctype="multipart/form-data" class="form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-input") }}
+                    {% if form.name.errors %}
+                        <div class="error-messages">
+                            {% for error in form.name.errors %}
+                                <span class="error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.image.label(class="form-label") }}
+                    {{ form.image(class="form-input-file") }}
+                    {% if form.image.errors %}
+                        <div class="error-messages">
+                            {% for error in form.image.errors %}
+                                <span class="error">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <small class="file-help">PNG, JPG, JPEG, GIF形式（最大16MB）</small>
+                </div>
+
+                {{ form.submit(class="submit-btn") }}
+            </form>
+        </main>
+
+        <footer>
+            <p><a href="{{ url_for('view_data') }}">保存データを確認</a></p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保存データ一覧</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 保存データ一覧</h1>
+            <p>送信されたプロフィール情報</p>
+        </header>
+
+        <main>
+            {% if submissions %}
+                <div class="data-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Discord ID</th>
+                                <th>表示名</th>
+                                <th>名前</th>
+                                <th>画像</th>
+                                <th>送信日時</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for submission in submissions %}
+                            <tr>
+                                <td>{{ submission[0] }}</td>
+                                <td>
+                                    {% if submission[1] %}
+                                        {{ submission[1] }}
+                                    {% else %}
+                                        <span class="no-discord">未認証</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if submission[3] %}
+                                        {{ submission[3] }}
+                                        {% if submission[2] %}
+                                            <br><small>@{{ submission[2] }}</small>
+                                        {% endif %}
+                                    {% elif submission[2] %}
+                                        {{ submission[2] }}
+                                    {% else %}
+                                        <span class="no-discord">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ submission[5] }}</td>
+                                <td>
+                                    <img src="{{ url_for('static', filename=submission[7].replace('static/', '')) }}" 
+                                         alt="uploaded image" class="thumbnail">
+                                </td>
+                                <td>{{ submission[9] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="no-data">
+                    <p>まだデータが保存されていません。</p>
+                </div>
+            {% endif %}
+
+            <div class="actions">
+                <a href="{{ url_for('form_page') }}" class="btn">フォームに戻る</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
