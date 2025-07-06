@@ -126,7 +126,7 @@ def form_page():
     
     if form.validate_on_submit():
         # フォームデータを取得
-        name = form.name.data.strip()
+        name = form.name.data.strip() if form.name.data else ''
         image_file = form.image.data
         
         # 画像ファイルを保存
